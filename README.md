@@ -47,3 +47,11 @@ python install -m requirements.txt
 
 ## Main
 
+basicamente o arquivo principal tem uma função para o download de audio e uma função para chamar e inicar o codigo todo
+
+a função `download_audio` verifica se o `repos` existe e se não existe ele cria para guardar os downloads e logo em seguinda as configurações do `yt-dlp` 
+
+depois chamamos e iniciamos com as informações adicionais os `inputs` e formatos padrões
+
+não vamos versionar o venv e nem o repos pois irá deixar o repositorio do github pesado
+
