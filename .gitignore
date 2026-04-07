@@ -1,2 +1,35 @@
-/repos/*
-venv/*
+# Virtual Environment
+venv/
+env/
+ENV/
+
+# Python
+__pycache__/
+*.py[cod]
+*.so
+
+# PyInstaller
+build/
+dist/
+*.spec
+
+# Downloads
+repos/
+Downloads_Videos/
+testes/
+
+# Temporary files
+*_temp.mp4
+*_video_temp.mp4
+*_audio_temp.mp4
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Icon backup
+icon.ico.bak

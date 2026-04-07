@@ -1,57 +1,122 @@
 # ZDown
+![Python](https://img.shields.io/badge/Python-3.7+-blue)
+![License](https://img.shields.io/badge/License-GNU3-green)
 
-sistema simples de download de musica, usando `yt-dlp`e `ffmpeg`
+Um downloader de vídeos com interface gráfica, suportando YouTube, Instagram, Twitter, TikTok e Facebook.
 
-## Funções
-- Baixar o audio de qualquerr video 
-- Permite escolher o formato de saida (`mp3` ou `wav`)
-- Salva os arquivos automaticamente na pasta `repos/`
+## Funcionalidades
 
+- Interface gráfica moderna (modo escuro)
+- Download de vídeos em múltiplas qualidades (1080p, 720p, 480p, 360p)
+- Extração de áudio para MP3
+- Suporte a playlists do YouTube
+- Download de vídeos do Instagram, Twitter, TikTok e Facebook
+- Escolha da pasta de destino
+- Barra de progresso em tempo real
+- Geração de executável para Windows
 
 ## Pré-requisitos
 
-Antes de rodar o projeto, precisamos de
+- Python 3.7+
+- FFmpeg (para vídeos 1080p+ e extração de áudio)
 
-- Python 3+
-- pip
-- ffmep
+### Instalando FFmpeg
 
-estou usando o wsl no windows então siga estes passos:
+**Windows:**
+```
+1. Baixe em: https://www.gyan.dev/ffmpeg/builds/
+2. Arquivo: ffmpeg-release-full.7z
+3. Extraia para C:\ffmpeg
+4. Adicione C:\ffmpeg\bin ao PATH do sistema
+```
 
-Atualiza o sitema e instale as dependencias
+**Linux/WSL:**
 ```bash
-sudo apt update -y && sudo apt upgrade -y
+sudo apt update
 sudo apt install ffmpeg
-sudo apt install python3 python3-pip -y
 ```
 
-crie o ambiente virtual (venv)
+## Instalação
+
 ```bash
+# Clone o repositório
+git clone https://github.com/Zer0G0ld/ZDown.git
+cd ZDown
+
+# Crie um ambiente virtual (opcional)
 python -m venv venv
-source venv/bin/activate
+source venv/bin/activate  # Linux/WSL
+venv\Scripts\activate     # Windows
+
+# Instale as dependências
+pip install -r requirements.txt
+
+# Execute
+python main.py
 ```
 
-instalar o `yt-dlp` tem duas formas
-
-1. usando o pip:
+Ou use o instalador automático:
 
 ```bash
-pip3 install -U yt-dlp
+python install_deps.py
 ```
 
-2. direto do requirements
+## Como usar
+
+1. Selecione a plataforma (YouTube, Instagram, etc.)
+2. Cole a URL do vídeo
+3. Escolha a qualidade desejada
+4. Selecione o formato (MP4 ou MP3)
+5. Escolha a pasta de destino
+6. Clique em "BAIXAR VÍDEO"
+
+## Criar executável (Windows)
 
 ```bash
-python install -m requirements.txt
+python setup.py              # Versão única
+python setup.py --portable   # Versão portátil
+python setup.py --clean      # Limpar arquivos temporários
 ```
 
-## Main
+## Estrutura do projeto
 
-basicamente o arquivo principal tem uma função para o download de audio e uma função para chamar e inicar o codigo todo
+```
+ZDown/
+├── main.py           # Programa principal
+├── setup.py          # Gerar executável
+├── install_deps.py   # Instalar dependências
+├── create_icon.py    # Criar ícone
+├── requirements.txt  # Dependências
+├── icon.ico         # Ícone do app
+└── README.md        # Documentação
+```
 
-a função `download_audio` verifica se o `repos` existe e se não existe ele cria para guardar os downloads e logo em seguinda as configurações do `yt-dlp` 
+## Observações
 
-depois chamamos e iniciamos com as informações adicionais os `inputs` e formatos padrões
+- **YouTube**: Vídeos 1080p+ precisam de FFmpeg
+- **Instagram**: Funciona apenas com perfis públicos
+- **Playlists**: Suportado apenas no YouTube
+- **Windows**: O executável pode ser detectado como vírus (falso positivo)
 
-não vamos versionar o venv e nem o repos pois irá deixar o repositorio do github pesado
+## Evolução do projeto
 
+| Versão | Ano | O que fazia |
+|--------|-----|-------------|
+| v1.0 | 2024 | CLI, só áudio, só YouTube |
+| v2.0 | 2025 | GUI, vídeo+áudio, 5 plataformas, playlists |
+
+## Tecnologias
+
+- Python + customtkinter (interface)
+- pytubefix (YouTube)
+- yt-dlp (outras plataformas)
+- FFmpeg (processamento)
+- PyInstaller (executável)
+
+## Licença
+
+GNU3
+
+---
+
+Desenvolvido por Zer0
