@@ -1,19 +1,25 @@
 # ZDown
+
 ![Python](https://img.shields.io/badge/Python-3.7+-blue)
-![License](https://img.shields.io/badge/License-GNU3-green)
+![License](https://img.shields.io/badge/License-GPLv3-green)
+![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux-lightgrey)
 
 Um downloader de vídeos com interface gráfica, suportando YouTube, Instagram, Twitter, TikTok e Facebook.
 
+## Screenshot
+
+![ZDown v2.0](screenshots/ZDown_v2.0.0.PNG)
+
 ## Funcionalidades
 
-- Interface gráfica moderna (modo escuro)
-- Download de vídeos em múltiplas qualidades (1080p, 720p, 480p, 360p)
-- Extração de áudio para MP3
-- Suporte a playlists do YouTube
-- Download de vídeos do Instagram, Twitter, TikTok e Facebook
-- Escolha da pasta de destino
-- Barra de progresso em tempo real
-- Geração de executável para Windows
+- 🎨 Interface gráfica moderna (modo escuro)
+- 📹 Download de vídeos em múltiplas qualidades (1080p, 720p, 480p, 360p)
+- 🎵 Extração de áudio para MP3
+- 📋 Suporte a playlists do YouTube
+- 📱 Download de vídeos do Instagram, Twitter, TikTok e Facebook
+- 📁 Escolha da pasta de destino
+- 📊 Barra de progresso em tempo real
+- 🖥️ Geração de executável para Windows
 
 ## Pré-requisitos
 
@@ -23,7 +29,7 @@ Um downloader de vídeos com interface gráfica, suportando YouTube, Instagram, 
 ### Instalando FFmpeg
 
 **Windows:**
-```
+```bash
 1. Baixe em: https://www.gyan.dev/ffmpeg/builds/
 2. Arquivo: ffmpeg-release-full.7z
 3. Extraia para C:\ffmpeg
@@ -32,8 +38,7 @@ Um downloader de vídeos com interface gráfica, suportando YouTube, Instagram, 
 
 **Linux/WSL:**
 ```bash
-sudo apt update
-sudo apt install ffmpeg
+sudo apt update && sudo apt install ffmpeg -y
 ```
 
 ## Instalação
@@ -45,6 +50,8 @@ cd ZDown
 
 # Crie um ambiente virtual (opcional)
 python -m venv venv
+
+# Ative o ambiente virtual
 source venv/bin/activate  # Linux/WSL
 venv\Scripts\activate     # Windows
 
@@ -68,15 +75,17 @@ python install_deps.py
 3. Escolha a qualidade desejada
 4. Selecione o formato (MP4 ou MP3)
 5. Escolha a pasta de destino
-6. Clique em "BAIXAR VÍDEO"
+6. Clique em **BAIXAR VÍDEO**
 
 ## Criar executável (Windows)
 
 ```bash
-python setup.py              # Versão única
-python setup.py --portable   # Versão portátil
+python setup.py              # Versão única (.exe)
+python setup.py --portable   # Versão portátil (pasta)
 python setup.py --clean      # Limpar arquivos temporários
 ```
+
+O executável será gerado na pasta `dist/`
 
 ## Estrutura do projeto
 
@@ -88,35 +97,42 @@ ZDown/
 ├── create_icon.py    # Criar ícone
 ├── requirements.txt  # Dependências
 ├── icon.ico         # Ícone do app
+├── LICENSE          # Licença GPLv3
+├── screenshots/     # Imagens do programa
+│   └── ZDown_v2.0.0.PNG
 └── README.md        # Documentação
 ```
 
 ## Observações
 
-- **YouTube**: Vídeos 1080p+ precisam de FFmpeg
-- **Instagram**: Funciona apenas com perfis públicos
-- **Playlists**: Suportado apenas no YouTube
-- **Windows**: O executável pode ser detectado como vírus (falso positivo)
+| Plataforma | Observação |
+|------------|------------|
+| **YouTube** | Vídeos 1080p+ precisam de FFmpeg |
+| **Instagram** | Funciona apenas com perfis públicos |
+| **Playlists** | Suportado apenas no YouTube |
+| **Windows** | O executável pode ser detectado como vírus (falso positivo) |
 
 ## Evolução do projeto
 
-| Versão | Ano | O que fazia |
-|--------|-----|-------------|
-| v1.0 | 2024 | CLI, só áudio, só YouTube |
-| v2.0 | 2025 | GUI, vídeo+áudio, 5 plataformas, playlists |
+| Versão | Ano | Funcionalidades |
+|--------|-----|-----------------|
+| **v1.0** | 2024 | CLI, apenas áudio, só YouTube |
+| **v2.0** | 2025 | GUI completa, vídeo+áudio, 5 plataformas, playlists |
 
-## Tecnologias
+## Tecnologias utilizadas
 
-- Python + customtkinter (interface)
-- pytubefix (YouTube)
-- yt-dlp (outras plataformas)
-- FFmpeg (processamento)
-- PyInstaller (executável)
+| Tecnologia | Finalidade |
+|------------|------------|
+| Python + customtkinter | Interface gráfica moderna |
+| pytubefix | Download do YouTube |
+| yt-dlp | Download de outras plataformas |
+| FFmpeg | Processamento de vídeo/áudio |
+| PyInstaller | Geração do executável |
 
 ## Licença
 
-GNU3
+Este projeto está sob a licença **GPLv3**. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
 ---
 
-Desenvolvido por Zer0
+Desenvolvido por [Zer0](https://github.com/Zer0G0ld)
