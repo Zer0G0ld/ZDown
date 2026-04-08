@@ -40,15 +40,107 @@ class VideoDownloader:
         self.criar_interface()       # 3º Criar interface (usa a variável)
 
         
-    def verificar_ffmpeg(self):
-        """Verifica se o FFmpeg está instalado"""
-        try:
-            subprocess.run(['ffmpeg', '-version'], capture_output=True, check=True)
-            self.ffmpeg_disponivel = True
-        except (subprocess.CalledProcessError, FileNotFoundError):
-            self.ffmpeg_disponivel = False
-            print("FFmpeg não encontrado. Para baixar vídeos em 1080p+, instale o FFmpeg")
+    def encontrar_ffmpeg(self):
+        """Encontra o FFmpeg (primeiro no local, depois no sistema)"""
         
+        # Caminhos possíveis para o FFmpeg
+        caminhos_ffmpeg = [
+            # FFmpeg embutido no executável
+            Path(sys._MEIPASS) / "ffmpeg_bin" / "ffmpeg.exe" if hasattr(sys, '_MEIPASS') else None,
+            # FFmpeg na pasta do programa
+            Path("ffmpeg_bin") / "ffmpeg.exe",
+            # FFmpeg no PATH do sistema
+            "ffmpeg",
+            # Instalação comum no Windows
+            Path("C:/ffmpeg/bin/ffmpeg.exe"),
+            Path("C:/Program Files/ffmpeg/bin/ffmpeg.exe"),
+        ]
+        
+        for caminho in caminhos_ffmpeg:
+            if caminho and Path(caminho).exists():
+                return str(caminho)
+            elif caminho and isinstance(caminho, str):
+                # Verificar se está no PATH
+                try:
+                    result = subprocess.run([caminho, '-version'], 
+                                        capture_output=True, check=False)
+                    if result.returncode == 0:
+                        return caminho
+                except:
+                    pass
+        
+        return None
+
+    def verificar_ffmpeg(self):
+        """Verifica se o FFmpeg está disponível"""
+        self.ffmpeg_path = self.encontrar_ffmpeg()
+        self.ffmpeg_disponivel = self.ffmpeg_path is not None
+        
+        if not self.ffmpeg_disponivel:
+            print("FFmpeg não encontrado!")
+            # Oferecer para baixar automaticamente
+            self.perguntar_baixar_ffmpeg()
+    def perguntar_baixar_ffmpeg(self):
+        """Pergunta se quer baixar o FFmpeg automaticamente"""
+        resposta = messagebox.askyesno(
+            "FFmpeg não encontrado",
+            "Para baixar vídeos em 1080p+ é necessário o FFmpeg.\n\n"
+            "Deseja baixar o FFmpeg automaticamente?"
+        )
+        
+        if resposta:
+            self.baixar_ffmpeg_automatico()
+
+    def baixar_ffmpeg_automatico(self):
+        """Baixa o FFmpeg automaticamente"""
+        import urllib.request
+        import zipfile
+        import threading
+        
+        self.status_var.set("Baixando FFmpeg... (pode levar alguns segundos)")
+        
+        def download():
+            try:
+                # Criar pasta
+                ffmpeg_dir = Path("ffmpeg_bin")
+                ffmpeg_dir.mkdir(exist_ok=True)
+                
+                # URL do FFmpeg (build pequeno)
+                url = "https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-win64-gpl.zip"
+                zip_path = ffmpeg_dir / "ffmpeg.zip"
+                
+                # Baixar
+                urllib.request.urlretrieve(url, zip_path, lambda count, block, total: self.atualizar_download_ffmpeg(count, block, total))
+                
+                # Extrair apenas o ffmpeg.exe
+                with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+                    for file in zip_ref.namelist():
+                        if file.endswith("ffmpeg.exe"):
+                            with zip_ref.open(file) as source:
+                                with open(ffmpeg_dir / "ffmpeg.exe", 'wb') as target:
+                                    target.write(source.read())
+                            break
+                
+                # Limpar
+                zip_path.unlink()
+                
+                self.ffmpeg_path = str(ffmpeg_dir / "ffmpeg.exe")
+                self.ffmpeg_disponivel = True
+                
+                self.janela.after(0, lambda: messagebox.showinfo("Sucesso", "FFmpeg instalado com sucesso!"))
+                self.status_var.set("FFmpeg instalado!")
+                
+            except Exception as e:
+                self.janela.after(0, lambda: messagebox.showerror("Erro", f"Não foi possível baixar o FFmpeg:\n{e}"))
+                self.status_var.set("Erro ao baixar FFmpeg")
+        
+        threading.Thread(target=download, daemon=True).start()
+
+    def atualizar_download_ffmpeg(self, count, block, total):
+        """Atualiza progresso do download do FFmpeg"""
+        percent = int(count * block * 100 / total)
+        self.status_var.set(f"Baixando FFmpeg... {percent}%")
+
     def criar_pasta_download(self):
         """Cria a pasta de downloads se não existir"""
         Path(self.pasta_download.get()).mkdir(parents=True, exist_ok=True)
@@ -233,11 +325,14 @@ class VideoDownloader:
         """Mescla vídeo e áudio usando FFmpeg"""
         try:
             self.status_var.set("Mesclando vídeo e áudio...")
-            # Comando FFmpeg para mesclar
+            
+            # Usar o FFmpeg encontrado
+            ffmpeg_cmd = self.ffmpeg_path if hasattr(self, 'ffmpeg_path') else 'ffmpeg'
+            
             cmd = [
-                'ffmpeg', '-i', video_path, '-i', audio_path,
+                ffmpeg_cmd, '-i', video_path, '-i', audio_path,
                 '-c:v', 'copy', '-c:a', 'aac', '-strict', 'experimental',
-                output_path, '-y'  # -y para sobrescrever se existir
+                output_path, '-y'
             ]
             subprocess.run(cmd, capture_output=True, check=True)
             return True

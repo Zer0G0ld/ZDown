@@ -23,6 +23,9 @@ testes/
 *_video_temp.mp4
 *_audio_temp.mp4
 
+# FFmpeg (já está no repo, mas ignorar se for gerado)
+ffmpeg_bin/*.zip
+
 # IDE
 .vscode/
 .idea/
@@ -30,6 +33,7 @@ testes/
 # OS
 .DS_Store
 Thumbs.db
+desktop.ini
 
 # Icon backup
 icon.ico.bak

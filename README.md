@@ -20,26 +20,7 @@ Um downloader de vídeos com interface gráfica, suportando YouTube, Instagram, 
 - 📁 Escolha da pasta de destino
 - 📊 Barra de progresso em tempo real
 - 🖥️ Geração de executável para Windows
-
-## Pré-requisitos
-
-- Python 3.7+
-- FFmpeg (para vídeos 1080p+ e extração de áudio)
-
-### Instalando FFmpeg
-
-**Windows:**
-```bash
-1. Baixe em: https://www.gyan.dev/ffmpeg/builds/
-2. Arquivo: ffmpeg-release-full.7z
-3. Extraia para C:\ffmpeg
-4. Adicione C:\ffmpeg\bin ao PATH do sistema
-```
-
-**Linux/WSL:**
-```bash
-sudo apt update && sudo apt install ffmpeg -y
-```
+- 🔧 **FFmpeg embutido** (não precisa instalar nada!)
 
 ## Instalação
 
@@ -77,10 +58,12 @@ python install_deps.py
 5. Escolha a pasta de destino
 6. Clique em **BAIXAR VÍDEO**
 
+> **Nota:** O programa baixa o FFmpeg automaticamente na primeira vez que for necessário (para vídeos 1080p+ ou MP3).
+
 ## Criar executável (Windows)
 
 ```bash
-python setup.py              # Versão única (.exe)
+python setup.py              # Versão única (.exe) com FFmpeg embutido
 python setup.py --portable   # Versão portátil (pasta)
 python setup.py --clean      # Limpar arquivos temporários
 ```
@@ -97,9 +80,10 @@ ZDown/
 ├── create_icon.py    # Criar ícone
 ├── requirements.txt  # Dependências
 ├── icon.ico         # Ícone do app
+├── ffmpeg_bin/      # FFmpeg embutido
+│   └── ffmpeg.exe
 ├── LICENSE          # Licença GPLv3
 ├── screenshots/     # Imagens do programa
-│   └── ZDown_v2.0.0.PNG
 └── README.md        # Documentação
 ```
 
@@ -107,7 +91,7 @@ ZDown/
 
 | Plataforma | Observação |
 |------------|------------|
-| **YouTube** | Vídeos 1080p+ precisam de FFmpeg |
+| **YouTube** | Vídeos 1080p+ usam FFmpeg embutido |
 | **Instagram** | Funciona apenas com perfis públicos |
 | **Playlists** | Suportado apenas no YouTube |
 | **Windows** | O executável pode ser detectado como vírus (falso positivo) |
@@ -118,6 +102,7 @@ ZDown/
 |--------|-----|-----------------|
 | **v1.0** | 2024 | CLI, apenas áudio, só YouTube |
 | **v2.0** | 2025 | GUI completa, vídeo+áudio, 5 plataformas, playlists |
+| **v2.1** | 2025 | FFmpeg embutido, download automático |
 
 ## Tecnologias utilizadas
 
@@ -126,7 +111,7 @@ ZDown/
 | Python + customtkinter | Interface gráfica moderna |
 | pytubefix | Download do YouTube |
 | yt-dlp | Download de outras plataformas |
-| FFmpeg | Processamento de vídeo/áudio |
+| FFmpeg | Processamento de vídeo/áudio (embutido) |
 | PyInstaller | Geração do executável |
 
 ## Licença
