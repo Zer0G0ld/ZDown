@@ -39,5 +39,6 @@ desktop.ini
 icon.ico.bak
 
 # FFmpeg executável (muito grande para o GitHub)
+ffmepg_bin/
 ffmpeg_bin/*.exe
 ffmpeg_bin/*.zip
